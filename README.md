@@ -80,7 +80,7 @@ Apollo’s Chariot was selected as the final concept because it balanced innovat
 The project also provided hands-on experience in electronics integration, microcontroller programming, mechanical design, and collaborative engineering.
 ## Initial Concept
 
-![Concept Sketch](images/concept_sketch.png)
+![Concept Sketch](docs/concept_sketch.png)
 
 The early design stage involved hand-drawn sketches to visualize the vehicle structure and articulation mechanism.
 ## Design Calculations
@@ -109,7 +109,7 @@ Wheel diameter: 5 cm
 Tyre diameter: 6.5 cm  
 ## CAD Design
 
-![CAD Model](images/cad_chassis_design.png)
+![CAD Model](docs/cad_chassis_design.png)
 
 CAD models were developed to determine chassis geometry, wheel placement, and structural balance.
 Material:
@@ -126,7 +126,7 @@ Plywood was used because it is lightweight, affordable, and easy to cut while st
 Off-road tyres were used to improve traction on uneven surfaces.
 ## Height Adjustment Mechanism
 
-![Height Adjustment](images/cad_height_adjustment.png)
+![Height Adjustment](docs/cad_height_adjustment.png)
 
 Servo motors control the angle of the supporting arms, allowing the vehicle to adjust its ground clearance depending on terrain conditions.
 
@@ -141,7 +141,7 @@ Main electronics used in the system include:
 - infrared sensor module
   ## Electronics Architecture
 
-![Circuit](images/tinkercad_circuit.png)
+![Circuit](docs/tinkercad_circuit.png)
 
 The electronics system uses an Arduino UNO microcontroller to control motors and servos. The circuit was first simulated in Tinkercad before building the physical prototype.
   ## Budget
@@ -160,7 +160,7 @@ Three servo motors control steering and height adjustment, while DC motors drive
 Motor drivers are used to control direction and speed using PWM signals from the Arduino.
 ## Prototype Assembly
 
-![Prototype](images/prototype_top_view.png)
+![Prototype](docs/prototype_top_view.png)
 
 The prototype integrates the mechanical chassis, motors, servos, and microcontroller into a compact rescue vehicle platform.
   Arduino Code:
@@ -264,7 +264,7 @@ delay(1000); // Wait 1 sec before restarting the loop
 23
 ## Adjustable Leg Mechanism
 
-![Servo Mechanism](images/servo_leg_mechanism.png)
+![Servo Mechanism](docs/servo_leg_mechanism.png)
 
 Servo-mounted legs allow the vehicle to modify its height and improve stability on uneven surfaces.
 ## Future Improvements
@@ -278,7 +278,7 @@ Several improvements could be implemented in future versions of the vehicle.
 • Wireless camera module for remote rescue missions
 ## Electronics Integration
 
-![Electronics Layout](images/electronics_layout.png)
+![Electronics Layout](docs/electronics_layout.png)
 
 The electronics section includes the Arduino controller, motor drivers, power supply, and wiring for motors and servos.
 ## Arduino Control System
