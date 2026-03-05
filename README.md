@@ -166,56 +166,47 @@ The prototype integrates the mechanical chassis, motors, servos, and microcontro
   Arduino Code:
 ## Arduino Control Code
 
-#include <Servo.h> // Include Servo library
+#include <Servo.h>
 
-// Define motor enable and input control pins
+// Motor enable pins
 #define EN1 5
+#define EN2 6
+#define EN3 9
+
+// Motor direction pins
 #define IN1 2
 #define IN2 4
-
-#define EN2 6
 #define IN3 7
 #define IN4 8
-
-#define EN3 9
 #define IN5 13
 #define IN6 12
 
-// Define servo objects
 Servo servo1;
 Servo servo2;
 Servo servo3;
 
-
-// Sweep function for smooth servo movement
+// Smooth servo movement function
 void sweepServo(Servo &servo, int startAngle, int endAngle, int stepDelay) {
 
   if (startAngle < endAngle) {
-
     for (int pos = startAngle; pos <= endAngle; pos++) {
       servo.write(pos);
       delay(stepDelay);
     }
-
   } else {
-
     for (int pos = startAngle; pos >= endAngle; pos--) {
       servo.write(pos);
       delay(stepDelay);
     }
-
   }
 }
 
-
 void setup() {
 
-  // Attach servos to their respective pins
   servo1.attach(3);
   servo2.attach(10);
   servo3.attach(11);
 
-  // Set motor enable and input pins as OUTPUT
   pinMode(EN1, OUTPUT);
   pinMode(IN1, OUTPUT);
   pinMode(IN2, OUTPUT);
@@ -228,54 +219,52 @@ void setup() {
   pinMode(IN5, OUTPUT);
   pinMode(IN6, OUTPUT);
 
-  Serial.begin(9600); // Start serial communication for debugging
+  Serial.begin(9600);
 }
-
 
 void loop() {
 
-  // 1. Set Servos to Initial Angles
+  // Initial servo positions
   servo1.write(170);
   servo2.write(20);
   servo3.write(7);
 
-  delay(1000); // Wait 1 second
+  delay(1000);
 
-
-  // 2. Move Forward (Motors ON)
-
+  // Move forward
   digitalWrite(IN1, HIGH);
-  digitalWrite(IN2, LOW);   // Motor 1 forward
+  digitalWrite(IN2, LOW);
 
   digitalWrite(IN3, HIGH);
-  digitalWrite(IN4, LOW);   // Motor 2 forward
+  digitalWrite(IN4, LOW);
 
   digitalWrite(IN5, LOW);
-  digitalWrite(IN6, HIGH);  // Motor 3 backward
+  digitalWrite(IN6, HIGH);
 
   analogWrite(EN1, 80);
   analogWrite(EN2, 80);
   analogWrite(EN3, 255);
 
-  delay(5000); // Move forward for 5 seconds
+  delay(5000);
 
-
-  // 3. Stop Motors
-
+  // Stop motors
   analogWrite(EN1, 0);
   analogWrite(EN2, 0);
   analogWrite(EN3, 0);
 
   delay(1000);
 
+  // Servo movement
+  sweepServo(servo1, 180, 135, 10);
+  sweepServo(servo2, 10, 45, 10);
+  sweepServo(servo3, 7, 45, 10);
 
-  // 4. Move Servo 1 & 2 forward, Servo 3 backward (Outward Tyres Movement)
+  // Move backward
+  digitalWrite(IN1, LOW);
+  digitalWrite(IN2, HIGH);
 
-  digitalWrite(IN1, HIGH);
-  digitalWrite(IN2, LOW);
-
-  digitalWrite(IN3, HIGH);
-  digitalWrite(IN4, LOW);
+  digitalWrite(IN3, LOW);
+  digitalWrite(IN4, HIGH);
 
   digitalWrite(IN5, HIGH);
   digitalWrite(IN6, LOW);
@@ -284,47 +273,16 @@ void loop() {
   analogWrite(EN2, 80);
   analogWrite(EN3, 255);
 
-  // Smooth servo transition
-  sweepServo(servo1, 180, 135, 10);
-  sweepServo(servo2, 10, 45, 10);
-  sweepServo(servo3, 7, 45, 10);
+  delay(5000);
 
-
-  // 5. Disable Motors
-
+  // Stop motors
   analogWrite(EN1, 0);
   analogWrite(EN2, 0);
   analogWrite(EN3, 0);
 
   delay(1000);
-
-
-  // 6. Move Backward
-
-  digitalWrite(IN1, LOW);
-  digitalWrite(IN2, HIGH);  // Motor 1 backward
-
-  digitalWrite(IN3, LOW);
-  digitalWrite(IN4, HIGH);  // Motor 2 backward
-
-  digitalWrite(IN5, HIGH);
-  digitalWrite(IN6, LOW);   // Motor 3 forward
-
-  analogWrite(EN1, 80);
-  analogWrite(EN2, 80);
-  analogWrite(EN3, 255);
-
-  delay(5000); // Move backward for 5 seconds
-
-
-  // 7. Stop Motors
-
-  analogWrite(EN1, 0);
-  analogWrite(EN2, 0);
-  analogWrite(EN3, 0);
-
-  delay(1000); // Wait before restarting the loop
 }
+
 ## Adjustable Leg Mechanism
 
 ![Servo Mechanism](docs/images/servo_leg_mechanism.png)
