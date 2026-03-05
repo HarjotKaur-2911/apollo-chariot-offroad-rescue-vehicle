@@ -17,7 +17,6 @@ The goal of the project was to create a lightweight but durable vehicle platform
 - Obstacle detection capability
 - Remote or autonomous control
 - Modular electronic control system
-
 The design focuses on improving mobility in environments where conventional vehicles cannot operate efficiently, such as disaster zones, mining operations, or uneven terrain.
 ## Design Requirements
 
