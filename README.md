@@ -80,7 +80,7 @@ Apollo’s Chariot was selected as the final concept because it balanced innovat
 The project also provided hands-on experience in electronics integration, microcontroller programming, mechanical design, and collaborative engineering.
 ## Initial Concept
 
-![Concept Sketch](docs/concept_sketch.png)
+![Concept Sketch](docs/images/concept_sketch.png)
 
 The early design stage involved hand-drawn sketches to visualize the vehicle structure and articulation mechanism.
 ## Design Calculations
