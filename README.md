@@ -109,7 +109,7 @@ Wheel diameter: 5 cm
 Tyre diameter: 6.5 cm  
 ## CAD Design
 
-![CAD Model](docs/cad_chassis_design.png)
+![CAD Model](docs/images/cad_chassis_design.png)
 
 CAD models were developed to determine chassis geometry, wheel placement, and structural balance.
 Material:
@@ -126,7 +126,7 @@ Plywood was used because it is lightweight, affordable, and easy to cut while st
 Off-road tyres were used to improve traction on uneven surfaces.
 ## Height Adjustment Mechanism
 
-![Height Adjustment](docs/cad_height_adjustment.png)
+![Height Adjustment](docs/images/cad_height_adjustment.png)
 
 Servo motors control the angle of the supporting arms, allowing the vehicle to adjust its ground clearance depending on terrain conditions.
 
@@ -141,7 +141,7 @@ Main electronics used in the system include:
 - infrared sensor module
   ## Electronics Architecture
 
-![Circuit](docs/tinkercad_circuit.png)
+![Circuit](docs/images/tinkercad_circuit.png)
 
 The electronics system uses an Arduino UNO microcontroller to control motors and servos. The circuit was first simulated in Tinkercad before building the physical prototype.
   ## Budget
@@ -160,12 +160,15 @@ Three servo motors control steering and height adjustment, while DC motors drive
 Motor drivers are used to control direction and speed using PWM signals from the Arduino.
 ## Prototype Assembly
 
-![Prototype](docs/prototype_top_view.png)
+![Prototype](docs/images/prototype_top_view.png)
 
 The prototype integrates the mechanical chassis, motors, servos, and microcontroller into a compact rescue vehicle platform.
   Arduino Code:
+## Arduino Control Code
+
 #include <Servo.h> // Include Servo library
-// Define motor enable and input control pins (As per your instructions)
+
+// Define motor enable and input control pins
 #define EN1 5
 #define IN1 2
 #define IN2 4
@@ -175,96 +178,152 @@ The prototype integrates the mechanical chassis, motors, servos, and microcontro
 #define EN3 9
 #define IN5 13
 #define IN6 12
+
 // Define servo objects
 Servo servo1;
 Servo servo2;
 Servo servo3;
+
 // Sweep function for smooth servo movement
 void sweepServo(Servo &servo, int startAngle, int endAngle, int stepDelay) {
-if (startAngle < endAngle) {
-for (int pos = startAngle; pos <= endAngle; pos++) {
-servo.write(pos);
-delay(stepDelay);
+
+  if (startAngle < endAngle) {
+
+    for (int pos = startAngle; pos <= endAngle; pos++) {
+      servo.write(pos);
+      delay(stepDelay);
+    }
+
+  } else {
+
+    for (int pos = startAngle; pos >= endAngle; pos--) {
+      servo.write(pos);
+      delay(stepDelay);
+    }
+
+  }
 }
-} else {
-for (int pos = startAngle; pos >= endAngle; pos--) {
-servo.write(pos);
-delay(stepDelay);
-}
-}
-}
+
 void setup() {
-// Attach servos to their respective pins
-servo1.attach(3);
-servo2.attach(10);
-servo3.attach(11);
-// Set motor enable and input pins as OUTPUT
-pinMode(EN1, OUTPUT);
-pinMode(IN1, OUTPUT);
-pinMode(IN2, OUTPUT);
-pinMode(EN2, OUTPUT);
-pinMode(IN3, OUTPUT);
-pinMode(IN4, OUTPUT);
-pinMode(EN3, OUTPUT);
-pinMode(IN5, OUTPUT);
-pinMode(IN6, OUTPUT);
-Serial.begin(9600); // Start serial communication for debugging
+
+  // Attach servos to their respective pins
+  servo1.attach(3);
+  servo2.attach(10);
+  servo3.attach(11);
+
+  // Set motor enable and input pins as OUTPUT
+  pinMode(EN1, OUTPUT);
+  pinMode(IN1, OUTPUT);
+  pinMode(IN2, OUTPUT);
+
+  pinMode(EN2, OUTPUT);
+  pinMode(IN3, OUTPUT);
+  pinMode(IN4, OUTPUT);
+
+  pinMode(EN3, OUTPUT);
+  pinMode(IN5, OUTPUT);
+  pinMode(IN6, OUTPUT);
+
+  Serial.begin(9600); // Start serial communication for debugging
 }
-21
+
 void loop() {
-// 1 **Set Servos to Initial Angles**
-servo1.write(170);
-servo2.write(20);
-servo3.write(7);
-delay(1000); // Wait 1 second
-// 2 **Move Forward (Motors ON)**
-digitalWrite(IN1, HIGH); digitalWrite(IN2, LOW); // Motor 1 forward
-digitalWrite(IN3, HIGH); digitalWrite(IN4, LOW); // Motor 2 forward
-digitalWrite(IN5, LOW); digitalWrite(IN6, HIGH); // Motor 3 backward
-analogWrite(EN1, 80);
-analogWrite(EN2, 80);
-analogWrite(EN3, 255);
-delay(5000); // Wait 5 seconds
-// 3 **Stop Motors**
-analogWrite(EN1, 0);
-analogWrite(EN2, 0);
-analogWrite(EN3, 0);
-delay(1000); // Wait 1 second
-// 4 **Move Servo 1 & 2 forward, Servo 3 backward (Outward Tyres Movement)**
-digitalWrite(IN1, HIGH); digitalWrite(IN2, LOW);
-digitalWrite(IN3, HIGH); digitalWrite(IN4, LOW);
-digitalWrite(IN5, HIGH); digitalWrite(IN6, LOW);
-analogWrite(EN1, 80);
-analogWrite(EN2, 80);
-analogWrite(EN3, 255);
-// **Use Sweep Function for Smooth Transition**
-sweepServo(servo1, 180, 135, 10);
-sweepServo(servo2, 10, 45, 10);
-sweepServo(servo3, 7, 45, 10);
-// 5 **Disable Motors (ena = 0)**
-analogWrite(EN1, 0);
-analogWrite(EN2, 0);
-analogWrite(EN3, 0);
-delay(1000); // Wait 1 second
-// 6 **Move Backward (Motors ON, Servos Adjust)**
-digitalWrite(IN1, LOW); digitalWrite(IN2, HIGH); // Motor 1 backward
-digitalWrite(IN3, LOW); digitalWrite(IN4, HIGH); // Motor 2 backward
-digitalWrite(IN5, HIGH); digitalWrite(IN6, LOW); // Motor 3 forward
-analogWrite(EN1, 80);
-analogWrite(EN2, 80);
-analogWrite(EN3, 255);
-delay(5000); // Move backward for 5 seconds
-22
-// 7 **Stop Motors**
-analogWrite(EN1, 0);
-analogWrite(EN2, 0);
-analogWrite(EN3, 0);
-delay(1000); // Wait 1 sec before restarting the loop
+
+  // 1. Set Servos to Initial Angles
+  servo1.write(170);
+  servo2.write(20);
+  servo3.write(7);
+
+  delay(1000);
+
+
+  // 2. Move Forward (Motors ON)
+
+  digitalWrite(IN1, HIGH);
+  digitalWrite(IN2, LOW);
+
+  digitalWrite(IN3, HIGH);
+  digitalWrite(IN4, LOW);
+
+  digitalWrite(IN5, LOW);
+  digitalWrite(IN6, HIGH);
+
+  analogWrite(EN1, 80);
+  analogWrite(EN2, 80);
+  analogWrite(EN3, 255);
+
+  delay(5000);
+
+
+  // 3. Stop Motors
+
+  analogWrite(EN1, 0);
+  analogWrite(EN2, 0);
+  analogWrite(EN3, 0);
+
+  delay(1000);
+
+
+  // 4. Move Servo 1 & 2 forward, Servo 3 backward (Outward Tyres Movement)
+
+  digitalWrite(IN1, HIGH);
+  digitalWrite(IN2, LOW);
+
+  digitalWrite(IN3, HIGH);
+  digitalWrite(IN4, LOW);
+
+  digitalWrite(IN5, HIGH);
+  digitalWrite(IN6, LOW);
+
+  analogWrite(EN1, 80);
+  analogWrite(EN2, 80);
+  analogWrite(EN3, 255);
+
+  // Smooth servo movement
+  sweepServo(servo1, 180, 135, 10);
+  sweepServo(servo2, 10, 45, 10);
+  sweepServo(servo3, 7, 45, 10);
+
+
+  // 5. Disable Motors
+
+  analogWrite(EN1, 0);
+  analogWrite(EN2, 0);
+  analogWrite(EN3, 0);
+
+  delay(1000);
+
+
+  // 6. Move Backward
+
+  digitalWrite(IN1, LOW);
+  digitalWrite(IN2, HIGH);
+
+  digitalWrite(IN3, LOW);
+  digitalWrite(IN4, HIGH);
+
+  digitalWrite(IN5, HIGH);
+  digitalWrite(IN6, LOW);
+
+  analogWrite(EN1, 80);
+  analogWrite(EN2, 80);
+  analogWrite(EN3, 255);
+
+  delay(5000);
+
+
+  // 7. Stop Motors
+
+  analogWrite(EN1, 0);
+  analogWrite(EN2, 0);
+  analogWrite(EN3, 0);
+
+  delay(1000);
 }
-23
+```
 ## Adjustable Leg Mechanism
 
-![Servo Mechanism](docs/servo_leg_mechanism.png)
+![Servo Mechanism](docs/images/servo_leg_mechanism.png)
 
 Servo-mounted legs allow the vehicle to modify its height and improve stability on uneven surfaces.
 ## Future Improvements
@@ -278,7 +337,7 @@ Several improvements could be implemented in future versions of the vehicle.
 • Wireless camera module for remote rescue missions
 ## Electronics Integration
 
-![Electronics Layout](docs/electronics_layout.png)
+![Electronics Layout](docs/images/electronics_layout.png)
 
 The electronics section includes the Arduino controller, motor drivers, power supply, and wiring for motors and servos.
 ## Arduino Control System
